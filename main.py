@@ -28,7 +28,11 @@ class scraper():
         listSumm = []
         for idx,row in self.dataFrameInput.iterrows():
             item = row['Company']
-            listSumm.append((wiki.summary(item,sentences=3).lower()))
+            try:
+                tempData = wiki.summary(item,sentences=3).lower()
+            except:
+                tempData = 'N/A'
+            listSumm.append(tempData)
             # print(wiki.summary(item,sentences=3))
             # print("=========")
         # print(self.companyDict)
@@ -41,7 +45,7 @@ class scraper():
 
         for idx,row in self.dataFrameInput.iterrows():
             summ = row['Summary']
-            keywordStr = 'Have:'
+            keywordStr = ''
 
             for key in self.keyWordList:
             # print("Searching "+key)
