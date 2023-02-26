@@ -1,17 +1,16 @@
 import pandas as pd
 import wikipedia as wiki
 import re
+import time
+import random
 
 class scraper():
-    def __init__(self,inputDir):
-        # self.dataFrameOutput = pd.DataFrame()
+    def __init__(self):
+        self.inputDir = './input.xlsx'
         self.outputDir = './output.xlsx'
-        self.inputDir = inputDir
         self.keyWordList = {"software","information","technology"}
-        # self.companyDict = dict()
 
     def write_file(self):
-        
         self.dataFrameInput.to_excel(self.outputDir)
         pass
 
@@ -21,18 +20,17 @@ class scraper():
         # print(self.dataFrameInput.head())
         pass
 
-    def input_handler(self):
-        pass
-
     def get_data_from_web(self):
         listSumm = []
         for idx,row in self.dataFrameInput.iterrows():
             item = row['Company']
+            print("Searching ",idx," of ",len(self.dataFrameInput.index))
             try:
-                tempData = wiki.summary(item,sentences=3).lower()
+                tempData = wiki.summary(item,sentences=4).lower()
             except:
                 tempData = 'N/A'
             listSumm.append(tempData)
+            time.sleep(random.random())
             # print(wiki.summary(item,sentences=3))
             # print("=========")
         # print(self.companyDict)
@@ -40,9 +38,7 @@ class scraper():
         pass
 
     def search_keywork(self):
-        # for name in self.dataFrameInput["Company"]:
         tempList = []
-
         for idx,row in self.dataFrameInput.iterrows():
             summ = row['Summary']
             keywordStr = ''
@@ -60,7 +56,7 @@ class scraper():
         pass
 
 
-obj = scraper('input.xlsx')
+obj = scraper()
 obj.read_file()
 obj.get_data_from_web()
 obj.search_keywork()
